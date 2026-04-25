@@ -69,7 +69,6 @@ int main(){
                 break;
             }
 
-            //Remove a student by id
             case 3:{
                 if(!students.empty()){            
                     cout<<" * * * * * Remove Student by ID * * * * *"<<endl;
