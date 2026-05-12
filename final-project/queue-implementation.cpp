@@ -1,119 +1,128 @@
 #include <iostream>
 using namespace std;
 
-#define MAX 5  // Maximum size of the queue
 
-class Queue {
-private:
-    int arr[MAX];
-    int front;
-    int rear;
-    int count;
+class Queue
+{
+    private:
+        int front, rear, count, size, element;
+        int *arr;
 
-public:
-    // Constructor
-    Queue() {
-        front = 0;
-        rear = -1;
-        count = 0;
-    }
+    public:
 
-    // Check if queue is empty
-    bool isEmpty() {
-        return count == 0;
-    }
+        Queue()
+        {
+            cout << "Enter queue size :";
+            cin >> size;
+            front = -1;
+            rear = -1;
+            count = 0;
 
-    // Check if queue is full
-    bool isFull() {
-        return count == MAX;
-    }
-
-    // Enqueue: Insert element at the rear
-    void enqueue(int value) {
-        if (isFull()) {
-            cout << "\n  Queue Overflow! Cannot enqueue " << value << ". Queue is full.\n";
-            return;
+            arr = new int[size];
         }
-        rear = (rear + 1) % MAX;   // circular increment
-        arr[rear] = value;
-        count++;
-        cout << "\n  " << value << " enqueued successfully.\n";
-    }
+        void enqueue()
+        {
+            if (rear == size - 1)
+            {
+                cout << "Queue Overflow....." << endl;
+            }
+            else
+            {
+                cout << "Enter element : ";
+                cin >> element;
+                if (front == -1 && rear == -1)
+                {
+                    front++;
+                    rear++;
+                    arr[rear] = element;
+                }
+                else
+                {
+                    rear++;
+                    arr[rear] = element;
+                }
+                count++;
+                cout << "ELEMENT INSERTED IN THE QUEUE SUCCESSFULLY" << endl << endl;
+            }
+        }
 
-    // Dequeue: Remove element from the front
-    void dequeue() {
-        if (isEmpty()) {
-            cout << "\n  Queue Underflow! Cannot dequeue. Queue is empty.\n";
-            return;
+        void dequeue()
+        {
+            if ((front == -1 && rear == -1) || front == rear + 1)
+            {
+                cout << "Queue Underflow....." << endl;
+            }
+            else
+            {
+                int temp;
+                temp = arr[front];
+                front++;
+                count--;
+                cout << "FRONT ELEMENT " << temp << " DELETED" << endl;
+                if (front > rear)
+                {
+                    front = rear = -1;
+                }
+                cout << endl << endl;
+            }
         }
-        cout << "\n  " << arr[front] << " dequeued from the queue.\n";
-        front = (front + 1) % MAX;  // circular increment
-        count--;
-    }
 
-    // Display all elements in the queue
-    void display() {
-        if (isEmpty()) {
-            cout << "\n  Queue is empty. Nothing to display.\n";
-            return;
+        void display()
+        {
+        
+            if ((front == -1 && rear == -1) || front > rear)
+            {
+                cout << "Queue Underflow....." << endl;
+            }
+            else
+            {
+                cout << "QUEUE ELEMENTS : ";
+                for (int i = front; i <= rear; i++)
+                {
+                    cout << arr[i] << " ";
+                }
+                cout << endl << endl;
+            }
         }
-        cout << "\n  Queue (front --> rear): ";
-        for (int i = 0; i < count; i++) {
-            cout << arr[(front + i) % MAX];
-            if (i != count - 1) cout << " -> ";
-        }
-        cout << "\n";
-        cout << "  Front: " << arr[front]
-             << "  |  Rear: " << arr[rear]
-             << "  |  Size: " << count << "/" << MAX << "\n";
-    }
 };
 
-int main() {
+int main()
+{
     Queue q;
     int choice, value;
 
-    cout << "========================================\n";
-    cout << "       QUEUE IMPLEMENTATION (Array)     \n";
-    cout << "========================================\n";
-    cout << "  Queue Capacity : " << MAX << " elements\n";
-    cout << "  Type           : Circular Array Queue\n";
-    cout << "========================================\n";
-
-    do {
-        cout << "\n----------- MENU -----------\n";
-        cout << "  1. Enqueue (Insert)\n";
-        cout << "  2. Dequeue (Remove)\n";
-        cout << "  3. Display Queue\n";
-        cout << "  4. Exit\n";
-        cout << "-----------------------------\n";
+    do
+    {
+        cout << endl << "* * * * QUEUE OPERATIONS * * * *" << endl;
+        cout << "  1. Enqueue " << endl;
+        cout << "  2. Dequeue " << endl;
+        cout << "  3. Display Queue " << endl;
+        cout << "  0. Exit" << endl;
         cout << "  Enter your choice: ";
         cin >> choice;
 
-        switch (choice) {
-            case 1:
-                cout << "  Enter value to enqueue: ";
-                cin >> value;
-                q.enqueue(value);
-                break;
+        switch (choice)
+        {
+        case 1:
+            q.enqueue();
+            break;
 
-            case 2:
-                q.dequeue();
-                break;
+        case 2:
+            q.dequeue();
+            break;
 
-            case 3:
-                q.display();
-                break;
+        case 3:
+            q.display();
+            break;
 
-            case 4:
-                cout << "\n  Exiting program. Goodbye!\n";
-                cout << "========================================\n";
-                break;
+        case 0:
+            cout << "\n  Thankyou for performing queue operations!" << endl ;
+            break;
 
-            default:
-                cout << "\n  Invalid choice! Please enter 1-4.\n";
+        default:
+            cout << "Invalid choice!" << endl;
         }
-    } while (choice != 4);
+    } while (choice != 0);
 
     return 0;
 }
